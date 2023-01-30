@@ -1,0 +1,530 @@
+#variables (IM SORRY TO ALL MY CODING ANCESTORS)
+roll = 0
+                        #Mei
+        #Stats
+MeiAttack = int(863)
+MeiHP = int(20000)
+MeiDef = int(600)
+MeiEnergyMax = 4
+MeiCharges = 0
+                        #Kiana
+
+    #stats
+KianaHP = int(26000)
+KianaDEF = int(600)
+Kianacharges = 0
+KianaBug1 = False
+KianaBug2 = False
+KianaBug3 = False
+
+                        #elysia
+ElysiaHP = int(15000)
+ElysiaDef = 589
+ElysiaCharges = 0
+ElysiaThorn = False
+
+
+                        #mc
+MCHP = int(2600)
+MCDEF = int(600)
+McCharges = 0
+MCBroken = False
+MCBrokenturns = 0
+                        #Oleg
+OlegHP = 10000
+OlegDef = 450
+WildFirePride = False
+WildFireCount = 0
+OlegCharges = 0
+
+                        #Silver Wolf
+SilverWolfHP = int(3500)
+SilverWolfDEF = int(450)
+strbug = int(0.6)
+defbug = int(0)
+energybug = int(-2)
+SilverwolfCharges = int(0)
+
+
+
+from discord.ext import commands
+import discord
+import random
+
+prefix = "!"
+intents = discord.Intents.all()
+intents.message_content = True
+
+bot = commands.Bot(command_prefix=prefix, intents=intents)
+
+@bot.event
+async def on_ready():
+    print('ready!')
+
+
+#Mystery Character
+#Mei
+@bot.command(name="mystery")
+async def mystery(message, arg1, arg2):
+    basiclines = ["Call yourself lucky.", "It's all by chance.", "Ha."]
+    skilllines = ["Sorry for this one.", "Predictable.", "That's funny."]
+    Ultlines = ["**Thunder for you**", "**Let thunder splice you**", "**The power of the lightning**"]
+    #hps
+    global KianaHP
+
+    #Needed
+    global MeiCharges
+    global MeiDef
+    global MeiEnergyMax
+        #rolls
+    MeiStr = int(9)
+    MeiDex = int(2)
+    MeiCon = int(0)
+    MeiInt = int(5)
+    MeiWis = int(5)
+    MeiCharm = int(1)
+        #attacks
+    MeiBasicDmg = int(512)
+    MeiSkill = int(696)
+    MeiUlt = int(5620)
+
+
+
+
+    da = str(arg1)
+    du = str(arg2)
+    if da.lower() == 'basic':
+        if du.lower() == 'kiana':
+            KianaHP = KianaHP - MeiBasicDmg
+            MeiCharges = MeiCharges + 1
+            await message.channel.send(str(random.choice(basiclines)) +" Mystery Character attacks! Kiana's HP is now at: " + str(KianaHP) + ". Mystery Character is at " + str(MeiCharges*25) + ' Energy!')
+    if da.lower() == 'skill':
+        if du.lower() == 'kiana':
+            if MeiCharges > 0:
+                KianaHP = KianaHP - MeiSkill
+                MeiCharges = MeiCharges - 1
+                await message.channel.send(str(random.choice(skilllines)) + ' Mystery Character uses her skill! Kiana is at ' +str(KianaHP))
+            else:
+                await message.channel.send('Nope! No energy! Try basic attack next time...')
+    if da.lower() == 'ultimate':
+        if du.lower() == 'kiana':
+            if MeiCharges > 3:
+                MeiCharges = MeiCharges-4
+                KianaHP = KianaHP - MeiUlt
+                await message.channel.send( str(random.choice(Ultlines)) + ' Mystery Character uses her ult! Kiana is at: ' + str(KianaHP))
+            else:
+                await message.channel.send('Not enough energy!!!')
+    if da.lower() == 'roll':
+        if du.lower() == 'str':
+            roll = random.randrange(1,20) + MeiStr
+            await message.channel.send(roll)
+        if du.lower() == 'int':
+            roll = random.randrange(1,20) + MeiInt
+            await message.channel.send(roll)
+        if du.lower() == 'wis':
+            roll = random.randrange(1,20) + MeiWis
+            await message.channel.send(roll)
+        if du.lower() == 'dex':
+            roll = random.randrange(1,20) + MeiDex
+            await message.channel.send(roll)
+        if du.lower() == 'con':
+            roll = random.randrange(1,20) + MeiCon
+            await message.channel.send(roll)
+        if du.lower() == 'charm':
+            roll = random.randrange(1,20) + MeiCharm
+            await message.channe.send(roll)
+        
+    if du.lower() == 'health':
+            MeiHP = int(20000)
+            await message.channel.send('max health')
+
+
+#Final Boss
+#Kiana
+@bot.command(name='kiana')
+async def kiana(message, arg1, arg2):
+    
+    basiclines = ["I like your outfit.", "What do you call a cow with no legs?", "Guns!"]
+    skilllines = ["No one brought us here.", "I will cause the end.", "Good Night."]
+    Ultlines = ["**Fly me to the moon!**", "**Look at me go!**", "**I don't think you deserve to see the end.**"]
+    global ElysiaThorn
+    global ElysiaHP
+    global ElysiaDef
+    global MeiHP
+    global MeiDef
+    global KianaHP
+    global Kianacharges
+    global MCDEF
+    global MCHP
+            #rolls
+    KianaStr = int(9)
+    KianaDex = int(4)
+    KianaCon = int(2)
+    KianaInt = int(1)
+    KianaWis = int(5)
+        #attacks
+    KianaBasicDmg = int(1025)
+    KianaSkill = int(1128)
+    KianaUlt = int(1466)
+    da = str(arg1)
+    du = str(arg2)
+    if da.lower() == 'basic':
+        if du.lower() == 'mystery':
+            atkamount = KianaSkill - MeiDef
+            MeiHP = MeiHP - atkamount
+            Kianacharges = Kianacharges + 1
+            if MeiHP < 0:
+                MeiHP = 0
+            await message.channel.send(str(random.choice(basiclines))+ " Kiana attacks! Mystery Character's HP is now at: " + str(MeiHP) + ". Kiana is at " + str(Kianacharges*25) + ' Energy!')
+        if du.lower() == 'elysia':
+            if ElysiaThorn == True:
+                KianaHP = KianaHP -KianaBasicDmg
+                await message.channel.send("Kiana gets attacked instead! Kiana's HP is at "+ str(KianaHP))
+                ElysiaThorn = False
+                return
+            atkamount = KianaBasicDmg - ElysiaDef
+            ElysiaHP = ElysiaHP - atkamount
+            Kianacharges = Kianacharges + 1
+            if ElysiaHP < 0:
+                ElysiaHP = 0
+            await message.channel.send(str(random.choice(basiclines))+ " Kiana attacks! Elysia's HP is now at: " + str(ElysiaHP) + ". Kiana is at " + str(Kianacharges*25) + ' Energy!')
+        if du.lower() == 'mc':
+
+            atkamount = KianaBasicDmg - MCDEF
+            MCHP = MCHP = atkamount
+            if MCHP < 0:
+                MCHP = 0
+            await message.channel.send(str(random.choice(basiclines))+ " Kiana attacks! MC's HP is now at: " + str(MCHP) + ". Kiana is at " + str(Kianacharges*25) + ' Energy!')
+    if da.lower() == 'skill':
+        if du.lower() == 'mystery':
+            if Kianacharges > 0:
+                atkamount = KianaSkill - MeiDef
+                MeiHP = MeiHP -atkamount
+                Kianacharges = Kianacharges - 1
+                if MeiHP < 0:
+                    MeiHP = 0
+                await message.channel.send(str(random.choice(basiclines)) + 'Kiana uses her skill! Mystery Character is at ' + str(MeiHP))
+            else:
+                await message.channel.send('Nope! No energy! Try basic attack next time...')
+        if du.lower() == 'elysia':
+            if ElysiaThorn == True:
+                KianaHP = KianaHP - KianaSkill
+                await message.channel.send("Reverse attack! Kiana is at "+ KianaHP)
+                ElysiaThorn = False
+                return
+            else:
+                atkamount = KianaSkill - ElysiaDef
+                ElysiaHP = ElysiaHP -atkamount
+                if ElysiaHP < 0:
+                    ElysiaHP = 0
+                await message.channel.send(str(random.choice(skilllines)) + 'Kiana uses her skill! Elysia is at ' + str(ElysiaHP))
+        if du.lower() == 'mc':
+
+            atkamount = KianaSkill - MCDEF
+            MCHP = MCHP = atkamount
+            if MCHP < 0:
+                MCHP = 0
+            await message.channel.send(str(random.choice(skilllines))+ " Kiana attacks! MC's HP is now at: " + str(MCHP) + ". Kiana is at " + str(Kianacharges*25) + ' Energy!')
+    
+    if da.lower() == 'ultimate':
+        if du.lower() == 'mystery':
+            if Kianacharges > 3:
+                atkamount = KianaUlt - MeiDef
+                Kianacharges = Kianacharges-4
+                MeiHP = MeiHP - atkamount
+                if MeiHP < 0:
+                    MeiHP = 0
+                await message.channel.send(str(random.choice(basiclines)) + 'Kiana uses her ult! Mystery Character is at: ' + str(MeiHP))
+            else:
+                await message.channel.send('Not enough energy!!!')
+        if du.lower() == 'elysia':
+            if Kianacharges > 3:
+                if ElysiaThorn == True:
+                    KianaHP = KianaHP - KianaBasicDmg
+                    ElysiaThorn = False
+                    await message.channel.send('Instead of injuring Elysia, Kiana has injured herself on the Thorn! Kiana is at ' +str(KianaHP))
+                    return
+                else:
+                    atkamount = KianaUlt - ElysiaDef
+                    ElysiaHP = ElysiaHP - atkamount
+                    Kianacharges = Kianacharges -4
+                    if ElysiaHP < 0:
+                        ElysiaHP = 0
+                    await message.channel.send(str(random.choice(Ultlines)) + ' Kiana uses her ult! Elysia is at: ' + str(ElysiaHP))
+            else:
+                await message.channel.send("Not enough energy!!!")
+        if du.lower() == 'mc':
+            if Kianacharges > 3:
+
+                atkamount = KianaBasicDmg - MCDEF
+                MCHP = MCHP = atkamount
+                if MCHP < 0:
+                    MCHP = 0
+                    await message.channel.send(str(random.choice(Ultlines)) + ' Kiana uses her ult! MC is at: ' + str(MCHP))
+            else: 
+                await message.channel.send("Not enough energy!!!")
+
+    if da.lower() == 'max':
+        if du.lower() == 'health':
+            KianaHP = int(26000)
+            await message.channel.send('Kiana has been healed to max hp!')
+
+#Lesbian Jesus
+#Elysia
+@bot.command(name="jesus")
+async def jesus(message, arg1, arg2):
+    basiclines = ["hehehe!", "Sweet dreams!", "This is so heartless of me..."]
+    skilllines = ["Oh wow!", "Aren't you silly!"]
+    Ultlines = ["**Why, hello there!**", "**Yeehaw!**", "Thorn of Love"]
+
+    #hps
+    global KianaHP
+    global ElysiaThorn
+    #charges
+    global ElysiaCharges
+    global MeiHP
+    
+    #rolls
+    ElysiaStr = int(4)
+    ElysiaDex = int(3)
+    ElysiaCon = int(-1)
+    ElysiaInt = int(0)
+    ElysiaWis = int(4)
+    ElysiaCharm = int(1)
+
+    #attacks
+    ElysiaBasicDmg = int(365)
+    ElysiaSkill = int(584)
+    ElysiaUlt = int(1500)
+
+    da = str(arg1)
+    du = str(arg2)
+
+    if da.lower() == 'basic':
+        if du.lower() == 'kiana':
+            KianaHP = KianaHP - ElysiaBasicDmg
+            ElysiaCharges = ElysiaCharges + 1
+            await message.channel.send(str(random.choice(basiclines)) +" Elysia attacks! Kiana's HP is now at: " + str(KianaHP) + ". Elysia is at " + str(ElysiaCharges*25) + ' Energy!')
+    if da.lower() == 'skill':
+        if du.lower() == 'kiana':
+            if ElysiaCharges > 0:
+                KianaHP = KianaHP - ElysiaSkill
+                ElysiaCharges = ElysiaCharges - 1
+                await message.channel.send(str(random.choice(skilllines)) + ' Elysia uses her skill! Kiana is at ' +str(KianaHP))
+            else:
+                await message.channel.send('Nope! No energy! Try basic attack next time...')
+    if da.lower() == 'ultimate':
+            if du.lower() == 'kiana':
+                if ElysiaCharges > 3:
+                    ElysiaCharges = ElysiaCharges-4
+                    KianaHP = KianaHP - ElysiaUlt
+                    ElysiaThorn = True
+                    await message.channel.send( str(random.choice(Ultlines)) + ' Elysia uses her ult and now has Thorn of Love! Kiana is at: ' + str(KianaHP))
+
+                else:
+                    await message.channel.send('Not enough energy!!!')
+    if da.lower() == 'roll':
+        if du.lower() == 'str':
+            roll = random.randrange(1,20) + ElysiaStr
+            await message.channel.send(roll)
+        if du.lower() == 'int':
+            roll = random.randrange(1,20) + ElysiaInt
+            await message.channel.send(roll)
+        if du.lower() == 'wis':
+            roll = random.randrange(1,20) + ElysiaWis
+            await message.channel.send(roll)
+        if du.lower() == 'dex':
+            roll = random.randrange(1,20) + ElysiaDex
+            await message.channel.send(roll)
+        if du.lower() == 'con':
+            roll = random.randrange(1,20) + ElysiaCon
+            await message.channel.send(roll)
+        if du.lower() == 'charm':
+            roll = random.randrange(1,20) + ElysiaCharm
+            await message.channel.send(roll)
+
+    if da.lower() == 'sneak':
+        if du.lower() == 'attack':
+            MeiHP = MeiHP - ElysiaUlt * 2
+            if MeiHP == 0:
+                MeiHP = 1
+            await message.channel.send('Mei has been attacked from behind. She is now at ' + MeiHP)
+@bot.command(name='mc')
+async def mystery(message, arg1, arg2):
+    basiclines = ["RULES!", "Women.", "Men.", "Nongendered word with a romantic conotation as I swoon over people of every form."]
+    skilllines = ["AAAAAAAA.", "Baseball bat.", "Cancelled."]
+    Ultlines = ["**Rules are made to be broken**", "**Kick people**", "**You go BRRRRRRRRR**"]
+    #hps
+    global KianaHP
+
+    #Needed
+    global McCharges
+    global MCDEF
+    global MCBroken
+    global MCHP
+        #rolls
+    mcstr = int(9)
+    mcDex = int(2)
+    mcCon = int(0)
+    mcInt = int(5)
+    mcWis = int(5)
+    mcCharm = int(1)
+        #attacks
+    McBasicDmg = int(500)
+    McSkill = int(750)
+    McUlt = int(2000)
+
+
+
+
+    da = str(arg1)
+    du = str(arg2)
+    if da.lower() == 'basic':
+        if du.lower() == 'kiana':
+            if MCBroken == True:
+                MCBrokenturns = MCBrokenturns + 1
+                brokendmg = McBasicDmg + McBasicDmg
+                KianaHP = KianaHP - brokendmg
+                if MCBrokenturns == 2:
+                    MCBroken = False
+                    MCBrokenturns = 0
+            KianaHP = KianaHP - McBasicDmg
+            McCharges = McCharges + 1
+            await message.channel.send(str(random.choice(basiclines)) +" MC attacks! Kiana's HP is now at: " + str(KianaHP) + ". MC is at " + str(McCharges*25) + ' Energy!')
+    if da.lower() == 'skill':
+        if du.lower() == 'kiana':
+            if McCharges > 0:
+                if MCBroken == True:
+                    MCBrokenturns = MCBrokenturns + 1
+                    brokendmg = McBasicDmg + McBasicDmg
+                    KianaHP = KianaHP - brokendmg
+                    if MCBrokenturns == 2:
+                        MCBroken = False
+                        MCBrokenturns = 0
+                KianaHP = KianaHP - McSkill
+                McCharges = McCharges - 1
+                await message.channel.send(str(random.choice(skilllines)) + ' MC uses their skill! Kiana is at ' +str(KianaHP))
+            else:
+                await message.channel.send('Nope! No energy! Try basic attack next time...')
+    if da.lower() == 'ultimate':
+        if du.lower() == 'kiana':
+            if McCharges > 3:
+                if MCBroken == True:
+                    MCBrokenturns = MCBrokenturns + 1
+                    brokendmg = McBasicDmg + McBasicDmg
+                    KianaHP = KianaHP - brokendmg
+                    if MCBrokenturns == 2:
+                        MCBroken = False
+                        MCBrokenturns = 0
+                McCharges = McCharges-4
+                KianaHP = KianaHP - McUlt
+                await message.channel.send( str(random.choice(Ultlines)) + ' MC uses their ult and now is buffed for 2 turns! Kiana is at: ' + str(KianaHP))
+            else:
+                await message.channel.send('Not enough energy!!!')
+    if da.lower() == 'roll':
+        if du.lower() == 'str':
+            roll = random.randrange(1,20) + mcstr
+            await message.channel.send(roll)
+        if du.lower() == 'int':
+            roll = random.randrange(1,20) + mcInt
+            await message.channel.send(roll)
+        if du.lower() == 'wis':
+            roll = random.randrange(1,20) + mcWis
+            await message.channel.send(roll)
+        if du.lower() == 'dex':
+            roll = random.randrange(1,20) + mcDex
+            await message.channel.send(roll)
+        if du.lower() == 'con':
+            roll = random.randrange(1,20) + mcCon
+            await message.channel.send(roll)
+        if du.lower() == 'charm':
+            roll = random.randrange(1,20) + mcCon
+            await message.channel.send(roll)
+        
+    if du.lower() == 'health':
+            MCHP = int(2600)
+            await message.channel.send('max health')
+
+@bot.command(name="oleg")
+async def oleg(message, arg1, arg2):
+    basiclines = []
+    skilllines = []
+    ultlines = []
+
+    global OlegCharges
+    global OlegDef
+    global OlegHP
+
+    global KianaHP
+
+    OlegBasicDmg = int()
+    OlegBaseB = int()
+    OlegSkill = int()
+    OlegBaseS = int()
+    OlegUlt = int()
+    OlegBaseU = int()
+
+    da = str(arg1)
+    du = str(arg2)
+
+    if da.lower() == 'basic':
+        if du.lower() == 'kiana':
+            if WildFirePride == True:
+                OlegBasicDmg = OlegBasicDmg * 1.5
+                WildFireCount = WildFireCount + 1
+
+            KianaHP = KianaHP - OlegBasicDmg
+            OlegCharges = OlegCharges + 1
+            await message.channel.send(str(random.choice(basiclines)) +" Oleg attacks! Kiana's HP is now at: " + str(KianaHP) + ". Oleg is at " + str(OlegCharges*25) + ' Energy!')
+            OlegBasicDmg == OlegBaseB
+
+            if WildFireCount == 5:
+                WildFirePride = False
+                WildFireCount = 0
+    if da.lower() == 'skill':
+        if du.lower() == 'kiana':
+            if OlegCharges > 0:
+                if WildFirePride == True:
+                    OlegSkill = OlegSkill * 1.5
+                    WildFireCount = WildFireCount + 1
+                KianaHP = KianaHP - OlegSkill
+                OlegCharges = OlegCharges + 1
+                await message.channel.send(str(random.choice(skilllines)) + ' Oleg uses his skill! Kiana is at ' +str(KianaHP))
+                WildFirePride = True
+            else:
+                await message.channel.send('Not enough energy!!!')
+
+    if da.lower() == 'ultimate':
+        if du.lower() == 'kiana':
+            if OlegCharges > 3:
+                if WildFirePride == True:
+                    OlegUlt = OlegUlt * 1.5
+                OlegCharges = OlegCharges-4
+                KianaHP = KianaHP - OlegUlt
+                WildFirePride = False
+                await message.channel.send( str(random.choice(ultlines)) + ' Oleg uses his ult! Kiana is at: ' + str(KianaHP))
+            else:
+                await message.channel.send('Not Enough Energy!')
+
+
+
+
+
+@bot.command
+async def silverwolf(message, arg1, arg2):
+    basiclines = ["Ha!", "I've got a raid to get to.", ""]
+    skilllines =["I'm using my skill"]
+    ultlines = ["At this speed, too slow.", ""]
+
+    #hps
+    global KianaHP
+    global SilverWolfDEF
+    global SilverWolfHP
+    global strbug 
+    global defbug
+    global energybug
+
+
+
+
+bot.run(TOKEN)  # Where 'TOKEN' is your bot token
